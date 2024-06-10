@@ -5,33 +5,34 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
- * @title Simple Token
- * @author Breakthrough Labs Inc.
- * @notice Token, ERC20, Fixed Supply
- * @custom:version 1.0.7
- * @custom:address 4
+ * @title Simple Token with Airdrop Functionality
+ * @author Kristoffer Wallqvist
+ * @notice Token, ERC20, Fixed Supply, Airdrop Functionality
  * @custom:default-precision 18
- * @custom:simple-description Simple Token. A fixed supply is minted on deployment, and
- * new tokens can never be created.
+ * @custom:simple-description Simple Token with Airdrop Functionality. A fixed supply is minted on deployment, and
+ * new tokens can never be created. Can airdrop to specified addresses on deploy.
  * @dev ERC20 token with the following features:
  *
  *  - Premint your total supply.
  *  - No minting function. This allows users to comfortably know the future supply of the token.
+ *  - Airdrop on deploy. Choose which addresses to be airdropped and amount.
  *
  */
 
-contract FixedToken is ERC20 {
+contract FixedTokenWithAirdropFunctionality is ERC20 {
     /**
      * @param name Token Name
      * @param symbol Token Symbol
      * @param totalSupply Token Supply
+     * @param initialSupplyHolder Holder of Tokens on Deploy
      */
     constructor(
         string memory name,
         string memory symbol,
-        uint256 totalSupply
+        uint256 totalSupply,
+        address initialSupplyHolder
     ) payable ERC20(name, symbol) {
-        _mint(msg.sender, totalSupply);
+        _mint(initialSupplyHolder, totalSupply);
     }
 }
 
