@@ -19,7 +19,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  *
  */
 
-contract FixedTokenWithAirdropFunctionality is ERC20 {
+contract SimpleErc20TokenWithAirdrop is ERC20 {
     /**
      * @param name Token Name
      * @param symbol Token Symbol
