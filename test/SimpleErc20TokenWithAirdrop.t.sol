@@ -3,7 +3,6 @@ pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
 import {SimpleErc20TokenWithAirdrop} from "../src/SimpleErc20TokenWithAirdrop.sol";
-import {DeploySimpleErc20TokenWithAirdrop} from "../script/DeploySimpleErc20TokenWithAirdrop.s.sol";
 
 contract SimpleErc20TokenWithAirdropTest is Test {
     SimpleErc20TokenWithAirdrop simpleErc20TokenWithAirdrop;
@@ -11,11 +10,18 @@ contract SimpleErc20TokenWithAirdropTest is Test {
     string constant TOKEN_NAME = "BonesCoin";
     string constant TOKEN_SYMBOL = "$BONES";
     uint256 constant TOTAL_SUPPLY = 666666666;
-    address constant INITIAL_SUPPLY_HOLDER = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
+    uint256 constant AIRDROP_AMOUNT_PER_RECIPIENT = 222222222;
+    address REMAINING_SUPPLY_HOLDER = makeAddr("user1");
+    address AIRDROP_RECIPIENT_1 = makeAddr("user2");
+    address AIRDROP_RECIPIENT_2 = makeAddr("user3");
+    address[] AIRDROP_RECIPIENTS = [AIRDROP_RECIPIENT_1, AIRDROP_RECIPIENT_2];
+
+    uint256 remainingSupply = TOTAL_SUPPLY - (AIRDROP_AMOUNT_PER_RECIPIENT * AIRDROP_RECIPIENTS.length);
 
     function setUp() external {
-        DeploySimpleErc20TokenWithAirdrop deploySimpleErc20TokenWithAirdrop = new DeploySimpleErc20TokenWithAirdrop();
-        simpleErc20TokenWithAirdrop = deploySimpleErc20TokenWithAirdrop.run();
+        simpleErc20TokenWithAirdrop = new SimpleErc20TokenWithAirdrop(
+            TOKEN_NAME, TOKEN_SYMBOL, TOTAL_SUPPLY, AIRDROP_AMOUNT_PER_RECIPIENT, REMAINING_SUPPLY_HOLDER, AIRDROP_RECIPIENTS
+        );
     }
 
     function testTokenName() public view {
@@ -30,7 +36,12 @@ contract SimpleErc20TokenWithAirdropTest is Test {
         assertEq(simpleErc20TokenWithAirdrop.totalSupply(), TOTAL_SUPPLY);
     }
 
-    function testInitialSupplyHolder() public view {
-        assertEq(simpleErc20TokenWithAirdrop.balanceOf(INITIAL_SUPPLY_HOLDER), TOTAL_SUPPLY);
+    function testAirdroppedSupply() public view {
+        assertEq(simpleErc20TokenWithAirdrop.balanceOf(AIRDROP_RECIPIENT_1), AIRDROP_AMOUNT_PER_RECIPIENT);
+        assertEq(simpleErc20TokenWithAirdrop.balanceOf(AIRDROP_RECIPIENT_2), AIRDROP_AMOUNT_PER_RECIPIENT);
+    }
+
+    function testRemainingSupply() public view {
+        assertEq(simpleErc20TokenWithAirdrop.remainingSupply(), remainingSupply);
     }
 }
