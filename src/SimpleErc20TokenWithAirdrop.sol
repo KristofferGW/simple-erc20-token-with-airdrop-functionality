@@ -20,19 +20,31 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  */
 
 contract SimpleErc20TokenWithAirdrop is ERC20 {
-    /**
-     * @param name Token Name
-     * @param symbol Token Symbol
-     * @param totalSupply Token Supply
-     * @param initialSupplyHolder Holder of Tokens on Deploy
-     */
+    // /**
+    //  * @param name Token Name
+    //  * @param symbol Token Symbol
+    //  * @param totalSupply Token Supply
+    //  * @param remainingSupplyHolder Holder of Tokens on Deploy
+    //  * @param airdropRecipients Array of addresses to receive the airdrop
+    //  * @param airdropAmountPerRecipient Number of tokens each address will receive
+    //  */
+    uint256 public remainingSupply;
+
     constructor(
         string memory name,
         string memory symbol,
         uint256 totalSupply,
-        address initialSupplyHolder
+        uint256 airdropAmountPerRecipient,
+        address remainingSupplyHolder,
+        address[] memory airdropRecipients
     ) payable ERC20(name, symbol) {
-        _mint(initialSupplyHolder, totalSupply);
+        for (uint256 i = 0; i < airdropRecipients.length; i++) {
+            _mint(airdropRecipients[i], airdropAmountPerRecipient);
+        }
+
+        remainingSupply = totalSupply - (airdropAmountPerRecipient * airdropRecipients.length);
+
+        _mint(remainingSupplyHolder, remainingSupply);
     }
 }
 
