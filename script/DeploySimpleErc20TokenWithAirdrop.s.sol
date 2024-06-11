@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {Script} from "forge-std/Script.sol";
 import {SimpleErc20TokenWithAirdrop} from "../src/SimpleErc20TokenWithAirdrop.sol";
 
-contract SimpleErc20TokenWithAirdropScript is Script {
+contract DeploySimpleErc20TokenWithAirdrop is Script {
     function run() external returns (SimpleErc20TokenWithAirdrop) {
         string memory tokenName = "BonesCoin";
         string memory tokenSymbol = "$BONES";
