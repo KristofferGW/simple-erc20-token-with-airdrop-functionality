@@ -37,13 +37,16 @@ contract SimpleErc20TokenWithAirdrop is ERC20 {
         address remainingSupplyHolder,
         address[] memory airdropRecipients
     ) payable ERC20(name, symbol) {
+
+        require(airdropAmountPerRecipient * airdropRecipients.length <= totalSupply, "You can't mint more than total supply.");
+
         for (uint256 i = 0; i < airdropRecipients.length; i++) {
             _mint(airdropRecipients[i], airdropAmountPerRecipient);
         }
 
-        uint256 remainingSupply = totalSupply - (airdropAmountPerRecipient * airdropRecipients.length);
+        uint256 remainingSupplyAfterAirdrop = totalSupply - (airdropAmountPerRecipient * airdropRecipients.length);
 
-        _mint(remainingSupplyHolder, remainingSupply);
+        _mint(remainingSupplyHolder, remainingSupplyAfterAirdrop);
     }
 }
 
