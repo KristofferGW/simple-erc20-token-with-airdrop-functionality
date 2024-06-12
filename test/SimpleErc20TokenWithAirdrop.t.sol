@@ -48,11 +48,7 @@ contract SimpleErc20TokenWithAirdropTest is Test {
     }
 
     function testOverMinting() public {
-        address airdropRecipient3 = makeAddr("user4");
-        address airdropRecipient4 = makeAddr("user5");
         address[] memory newAirdropRecipients = new address[](4);
-        newAirdropRecipients[2] = airdropRecipient3;
-        newAirdropRecipients[3] = airdropRecipient4;
 
         vm.expectRevert("You can't mint more than total supply.");
         simpleErc20TokenWithAirdrop = new SimpleErc20TokenWithAirdrop(
