@@ -28,7 +28,6 @@ contract SimpleErc20TokenWithAirdrop is ERC20 {
     //  * @param airdropRecipients Array of addresses to receive the airdrop
     //  * @param airdropAmountPerRecipient Number of tokens each address will receive
     //  */
-    uint256 public remainingSupply;
 
     constructor(
         string memory name,
@@ -42,7 +41,7 @@ contract SimpleErc20TokenWithAirdrop is ERC20 {
             _mint(airdropRecipients[i], airdropAmountPerRecipient);
         }
 
-        remainingSupply = totalSupply - (airdropAmountPerRecipient * airdropRecipients.length);
+        uint256 remainingSupply = totalSupply - (airdropAmountPerRecipient * airdropRecipients.length);
 
         _mint(remainingSupplyHolder, remainingSupply);
     }

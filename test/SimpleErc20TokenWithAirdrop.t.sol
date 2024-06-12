@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {SimpleErc20TokenWithAirdrop} from "../src/SimpleErc20TokenWithAirdrop.sol";
 
 contract SimpleErc20TokenWithAirdropTest is Test {
@@ -41,7 +41,7 @@ contract SimpleErc20TokenWithAirdropTest is Test {
         assertEq(simpleErc20TokenWithAirdrop.balanceOf(AIRDROP_RECIPIENT_2), AIRDROP_AMOUNT_PER_RECIPIENT);
     }
 
-    function testRemainingSupply() public view {
-        assertEq(simpleErc20TokenWithAirdrop.remainingSupply(), remainingSupply);
+    function testBalanceOfRemainingSupplyHolder() public view {
+        assertEq(simpleErc20TokenWithAirdrop.balanceOf(REMAINING_SUPPLY_HOLDER), remainingSupply);
     }
 }
