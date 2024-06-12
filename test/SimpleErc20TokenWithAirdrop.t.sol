@@ -31,7 +31,8 @@ contract SimpleErc20TokenWithAirdropTest is Test {
     }
 
     function testTokenSymbol() public view {
-        assertEq(simpleErc20TokenWithAirdrop.symbol(), TOKEN_SYMBOL);
+        string memory tokenSymbol = simpleErc20TokenWithAirdrop.symbol();
+        assertEq(tokenSymbol, TOKEN_SYMBOL);
     }
 
     function testTotalSupply() public view {
