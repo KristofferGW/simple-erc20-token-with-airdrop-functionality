@@ -20,14 +20,14 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  */
 
 contract SimpleErc20TokenWithAirdrop is ERC20 {
-    // /**
-    //  * @param name Token Name
-    //  * @param symbol Token Symbol
-    //  * @param totalSupply Token Supply
-    //  * @param remainingSupplyHolder Holder of Tokens on Deploy
-    //  * @param airdropRecipients Array of addresses to receive the airdrop
-    //  * @param airdropAmountPerRecipient Number of tokens each address will receive
-    //  */
+    /**
+     * @param name Token Name
+     * @param symbol Token Symbol
+     * @param totalSupply Token Supply
+     * @param airdropAmountPerRecipient Number of tokens each address will receive
+     * @param remainingSupplyHolder Holder of Tokens on Deploy
+     * @param airdropRecipients Array of addresses to receive the airdrop
+     */
 
     constructor(
         string memory name,
