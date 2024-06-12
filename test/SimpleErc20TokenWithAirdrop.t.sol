@@ -11,17 +11,17 @@ contract SimpleErc20TokenWithAirdropTest is Test {
     string constant TOKEN_SYMBOL = "$BONES";
     uint256 constant TOTAL_SUPPLY = 666666666;
     uint256 constant AIRDROP_AMOUNT_PER_RECIPIENT = 222222222;
-    address REMAINING_SUPPLY_HOLDER = makeAddr("user1");
-    address AIRDROP_RECIPIENT_1 = makeAddr("user2");
-    address AIRDROP_RECIPIENT_2 = makeAddr("user3");
+    address remainingSupplyHolder = makeAddr("user1");
+    address airdropRecipientOne = makeAddr("user2");
+    address airdropRecipientTwo = makeAddr("user3");
 
-    address[] airdropRecipients = [AIRDROP_RECIPIENT_1, AIRDROP_RECIPIENT_2];
+    address[] airdropRecipients = [airdropRecipientOne, airdropRecipientTwo];
 
     uint256 remainingSupply = TOTAL_SUPPLY - (AIRDROP_AMOUNT_PER_RECIPIENT * airdropRecipients.length);
 
     function setUp() external {
         simpleErc20TokenWithAirdrop = new SimpleErc20TokenWithAirdrop(
-            TOKEN_NAME, TOKEN_SYMBOL, TOTAL_SUPPLY, AIRDROP_AMOUNT_PER_RECIPIENT, REMAINING_SUPPLY_HOLDER, airdropRecipients
+            TOKEN_NAME, TOKEN_SYMBOL, TOTAL_SUPPLY, AIRDROP_AMOUNT_PER_RECIPIENT, remainingSupplyHolder, airdropRecipients
         );
     }
 
@@ -40,12 +40,12 @@ contract SimpleErc20TokenWithAirdropTest is Test {
     }
 
     function testAirdroppedSupply() public view {
-        assertEq(simpleErc20TokenWithAirdrop.balanceOf(AIRDROP_RECIPIENT_1), AIRDROP_AMOUNT_PER_RECIPIENT);
-        assertEq(simpleErc20TokenWithAirdrop.balanceOf(AIRDROP_RECIPIENT_2), AIRDROP_AMOUNT_PER_RECIPIENT);
+        assertEq(simpleErc20TokenWithAirdrop.balanceOf(airdropRecipientOne), AIRDROP_AMOUNT_PER_RECIPIENT);
+        assertEq(simpleErc20TokenWithAirdrop.balanceOf(airdropRecipientTwo), AIRDROP_AMOUNT_PER_RECIPIENT);
     }
 
     function testBalanceOfRemainingSupplyHolder() public view {
-        assertEq(simpleErc20TokenWithAirdrop.balanceOf(REMAINING_SUPPLY_HOLDER), remainingSupply);
+        assertEq(simpleErc20TokenWithAirdrop.balanceOf(remainingSupplyHolder), remainingSupply);
     }
 
     function testOverMinting() public {
@@ -53,7 +53,7 @@ contract SimpleErc20TokenWithAirdropTest is Test {
 
         vm.expectRevert("You can't mint more than total supply.");
         simpleErc20TokenWithAirdrop = new SimpleErc20TokenWithAirdrop(
-            TOKEN_NAME, TOKEN_SYMBOL, TOTAL_SUPPLY, AIRDROP_AMOUNT_PER_RECIPIENT, REMAINING_SUPPLY_HOLDER, newAirdropRecipients
+            TOKEN_NAME, TOKEN_SYMBOL, TOTAL_SUPPLY, AIRDROP_AMOUNT_PER_RECIPIENT, remainingSupplyHolder, newAirdropRecipients
         );
     }
 }
